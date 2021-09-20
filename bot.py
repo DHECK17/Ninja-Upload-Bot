@@ -44,12 +44,11 @@ HELP_TEXT = """
 """
 ABOUT_TEXT = """
 - **Bot :** `NinjaUploadBot`
-- **Creator :** [JayRaj Mehta](https://telegram.me/hpd47)
-- **Source :** [Click here](https://github.com/DHECK17/)
+- **Creator :** [JayRaj Mehta](https://telegram.me/JayRaj8833)
+- **Source :** [Click here](https://github.com/JayRaj8833/)
 - **Language :** [Python3](https://python.org)
 - **Server :** [Heroku](https://heroku.com)
-
-__MᴀɪɴTᴀɪɴᴇᴅ Bʏ__ :** @hpd47
+__MᴀɪɴTᴀɪɴᴇᴅ Bʏ__ :** @JayRaj8833
 """
 
 START_BUTTONS = InlineKeyboardMarkup(
@@ -118,12 +117,32 @@ async def upload(client, message):
             if user.status == "kicked":
                 await client.send_message(
                     chat_id=message.chat.id,
-                    text="**Sᴏʀʀʏ, Yᴏᴜ ᴀʀᴇ Bᴀɴɴᴇᴅ ᴛᴏ ᴜsᴇ ᴍᴇ! Cᴏɴᴛᴀᴄᴛ** [Dᴇᴠᴇʟᴏᴘᴇʀ](https://telegram.me/hpd47).",
+                    text="**Sᴏʀʀʏ, Yᴏᴜ ᴀʀᴇ Bᴀɴɴᴇᴅ ᴛᴏ ᴜsᴇ ᴍᴇ! Cᴏɴᴛᴀᴄᴛ** [Dᴇᴠᴇʟᴏᴘᴇʀ](https://telegram.me/JayRaj8833).",
                     parse_mode="markdown",
                     disable_web_page_preview=True
                 )
                 return
-      
+        except UserNotParticipant:
+            await client.send_message(
+                chat_id=message.chat.id,
+                text="**Pʟᴇᴀsᴇ Jᴏɪɴ Mʏ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ Tᴏ Usᴇ Mᴇ 🏃‍♂**",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton("Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ", url=f"https://t.me/{Config.UPDATES_CHANNEL}")
+                        ]
+                    ]
+                ),
+                parse_mode="markdown"
+            )
+            return
+        except Exception:
+            await client.send_message(
+                chat_id=message.chat.id,
+                text="**Sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ Wʀᴏɴɢ! Cᴏɴᴛᴀᴄᴛ ᴍʏ** [Dᴇᴠᴇʟᴏᴘᴇʀ](https://telegram.me/JayRaj8833).",
+                parse_mode="markdown",
+                disable_web_page_preview=True)
+            return
     m = await message.reply("**Dᴏᴡɴʟᴏᴀᴅɪɴɢ Yᴏᴜʀ FIʟᴇs Tᴏ Mʏ Sᴇʀᴠᴇʀ ....** 😈")
     now = time.time()
     sed = await bot.download_media(
@@ -138,17 +157,13 @@ async def upload(client, message):
     try:
         files = {'file': open(sed, 'rb')}
         await m.edit("**Uᴘʟᴏᴀᴅɪɴɢ ᴛᴏ NinjaUploadBot Sᴇʀᴠᴇʀ Pʟᴇᴀsᴇ Wᴀɪᴛ**")
-        callapi = requests.post("https://tmp.ninja/upload.php", files=files)
+        callapi = requests.post("https://api.anonfiles.com/upload", files=files)
         text = callapi.json()
         output = f"""
-<u>**Fɪʟᴇ Uᴘʟᴏᴀᴅᴇᴅ Tᴏ TMP.ninja**</u>
-
+<u>**Fɪʟᴇ Uᴘʟᴏᴀᴅᴇᴅ Tᴏ AɴᴏɴFɪʟᴇs**</u>
 **📂 Fɪʟᴇ Nᴀᴍᴇ:** {text['data']['file']['metadata']['name']}
-
 **📦 Fɪʟᴇ Sɪᴢᴇ:** {text['data']['file']['metadata']['size']['readable']}
-
 **📥Dᴏᴡɴʟᴏᴀᴅ Lɪɴᴋ:** `{text['data']['file']['url']['full']}`
-
 🔅__MᴀɪɴTᴀɪɴᴇᴅ Bʏ__ :** @JayRaj8833**"""
         btn = InlineKeyboardMarkup(
                                 [[InlineKeyboardButton("Dᴏᴡɴʟᴏᴀᴅ Fɪʟᴇ", url=f"{text['data']['file']['url']['full']}")]])
