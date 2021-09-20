@@ -157,7 +157,7 @@ async def upload(client, message):
     try:
         files = {'file': open(sed, 'rb')}
         await m.edit("**Uᴘʟᴏᴀᴅɪɴɢ ᴛᴏ NinjaUploadBot Sᴇʀᴠᴇʀ Pʟᴇᴀsᴇ Wᴀɪᴛ**")
-        callapi = requests.post("https://api.anonfiles.com/upload", files=files)
+        callapi = requests.post("https://tmp.ninja/upload.php", files=files)
         text = callapi.json()
         output = f"""
 <u>**Fɪʟᴇ Uᴘʟᴏᴀᴅᴇᴅ Tᴏ AɴᴏɴFɪʟᴇs**</u>
